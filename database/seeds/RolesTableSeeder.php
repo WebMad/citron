@@ -13,9 +13,9 @@ class RolesTableSeeder extends Seeder
      */
     public function run(Role $roles)
     {
-        $roles::firstOrNew(['id' => 1, 'name' => 'Администратор']);
-        $roles::firstOrNew(['id' => 2, 'name' => 'Модератор']);
-        $roles::firstOrNew(['id' => 3, 'name' => 'Пользователь']);
+        $roles::firstOrCreate(['id' => 1, 'name' => 'Администратор']);
+        $roles::firstOrCreate(['id' => 2, 'name' => 'Модератор']);
+        $roles::firstOrCreate(['id' => 3, 'name' => 'Пользователь']);
     }
 
 
