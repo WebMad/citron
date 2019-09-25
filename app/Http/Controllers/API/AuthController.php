@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Resources\UserResource;
-use App\User;
+use App\Http\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -26,33 +25,14 @@ class AuthController extends Controller
     /**
      * Register user
      *
-     * @param Request $request
+     * @param CreateUserRequest $request
      *
+     * @param UserService $userService
      * @return JsonResponse
      */
-    public function register(Request $request)
+    public function register(CreateUserRequest $request, UserService $userService)
     {
-        $validator = Validator::make($request->all(), [
-            'surname' => ['string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'middle_name' => ['string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role_id' => ['required', 'exists:roles,id'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
-        $user = User::create([
-            'surname' => $request->input('surname'),
-            'name' => $request->input('name'),
-            'middle_name' => $request->input('middle_name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'role_id' => $request->input('role_id'),
-        ]);
+        $user = $userService->create($request->all());
 
         $token = JWTAuth::fromUser($user);
 
