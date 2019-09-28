@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -49,6 +50,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof AuthorizationException)
+        {
+            return response()->json(['error' => 'Permission denied.'],403);
+        }
+
         return parent::render($request, $exception);
     }
 }

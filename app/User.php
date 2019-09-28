@@ -48,6 +48,24 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Проверяет, имеет ли пользователь права администратора
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role_id == self::ADMINISTRATOR;
+    }
+
+    /**
+     * Проверяет, имеет ли пользователь права модератора
+     * @return bool
+     */
+    public function isModer()
+    {
+        return $this->role_id == self::MODERATOR;
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
