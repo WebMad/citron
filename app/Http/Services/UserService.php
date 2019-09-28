@@ -52,8 +52,11 @@ class UserService extends BaseService
     public function update($id, $params)
     {
         $user = $this->model::find($id);
-        $user->update($params);
-        return $user;
+        if($user) {
+            $user->update($params);
+            return $user;
+        }
+         return false;
     }
 
     public function delete($id)

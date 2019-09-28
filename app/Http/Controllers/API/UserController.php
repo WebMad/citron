@@ -34,7 +34,10 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request, UserService $userService)
     {
-        $user = $userService->create($request->all());
+        $params = $request->all();
+        $params['role_id'] = User::USER;
+
+        $user = $userService->create($params);
 
         return response()->json([
             'user' => new UserResource($user),
@@ -50,7 +53,11 @@ class UserController extends Controller
      */
     public function show(UserService $userService, $id)
     {
-        return new UserResource($userService->find($id));
+        $user = $userService->find($id);
+        if ($user) {
+            return new UserResource($userService->find($id));
+        }
+        return response()->json(['error' => __('User not found')], 404);
     }
 
     /**
@@ -63,8 +70,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, UserService $userService, $id)
     {
-        return new UserResource($userService->update($id, $request->all()));
-
+        $user = $userService->update($id, $request->all());
+        if ($user) {
+            return new UserResource($user);
+        }
+        return response()->json(['error' => __('User not found')], 404);
     }
 
     /**
