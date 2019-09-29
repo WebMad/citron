@@ -47,6 +47,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne('App\Role', 'id', 'role_id');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany('App\Projects', 'projects_users');
+    }
+
     /**
      * Проверяет, имеет ли пользователь права администратора
      * @return bool
