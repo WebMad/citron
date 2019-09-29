@@ -30,13 +30,8 @@ Route::group([
 
 
 Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function () {
-    Route::get('roles', function () {
-        return RoleResource::collection(Role::all());
-    });
+    Route::get('roles', 'RoleController@index');
+    Route::get('roles/{id}', 'RoleController@show');
+
     Route::apiResource('users', 'UserController');
-});
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-
-    return $request->user();
 });
