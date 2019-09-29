@@ -8,17 +8,23 @@ use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 use App\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param UserService $userService
      * @return AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(UserService $userService)
     {
@@ -31,9 +37,12 @@ class UserController extends Controller
      * @param CreateUserRequest $request
      * @param UserService $userService
      * @return JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateUserRequest $request, UserService $userService)
     {
+        $this->authorize('create-user');
+
         $params = $request->all();
         $params['role_id'] = User::USER;
 
@@ -50,6 +59,7 @@ class UserController extends Controller
      * @param UserService $userService
      * @param int $id
      * @return UserResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(UserService $userService, $id)
     {
@@ -67,11 +77,13 @@ class UserController extends Controller
      * @param UserService $userService
      * @param int $id
      * @return UserResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(UpdateUserRequest $request, UserService $userService, $id)
     {
         $user = $userService->update($id, $request->all());
         if ($user) {
+            $this->authorize('update-user', $user);
             return new UserResource($user);
         }
         return response()->json(['error' => __('User not found')], 404);
@@ -83,10 +95,18 @@ class UserController extends Controller
      * @param UserService $userService
      * @param int $id
      * @return void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(UserService $userService, $id)
     {
-        $userService->delete($id);
-        return response()->json(['success']);
+        $user = $userService->find($id);
+        if($user) {
+            $this->authorize('delete-user', $user);
+
+            $userService->delete($id);
+            return response()->json(['success']);
+        }
+
+        return response()->json(['error' => __('User not found')], 404);
     }
 }
