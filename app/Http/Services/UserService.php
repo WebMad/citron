@@ -4,24 +4,19 @@ namespace App\Http\Services;
 
 
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class UserService
+ * @property User $model
+ * @package App\Http\Services
+ */
 class UserService extends BaseService
 {
 
     public function __construct(User $user)
     {
-        $this->model = $user;
-    }
-
-    /**
-     * @return Collection|Model[]
-     */
-    public function all()
-    {
-        return $this->model::all();
+        parent::__construct($user);
     }
 
     /**
@@ -38,30 +33,6 @@ class UserService extends BaseService
             'password' => Hash::make($params['password']),
             'role_id' => $params['role_id'],
         ]);
-    }
-
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    public function find($id)
-    {
-        return $this->model::find($id);
-    }
-
-    public function update($id, $params)
-    {
-        $user = $this->model::find($id);
-        if($user) {
-            $user->update($params);
-            return $user;
-        }
-         return false;
-    }
-
-    public function delete($id)
-    {
-        $this->model::find($id)->delete();
     }
 
 }

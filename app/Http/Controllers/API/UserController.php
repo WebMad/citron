@@ -4,9 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
-use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -14,39 +15,38 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class UserController extends Controller
 {
 
-    public function __construct()
-    {
+    /**
+     * @var UserService
+     */
+    private $userService;
 
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param UserService $userService
      * @return AnonymousResourceCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(UserService $userService)
+    public function index()
     {
-        return UserResource::collection($userService->all());
+        return UserResource::collection($this->userService->all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param CreateUserRequest $request
-     * @param UserService $userService
      * @return JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function store(CreateUserRequest $request, UserService $userService)
+    public function store(CreateUserRequest $request)
     {
         $this->authorize('create-user');
 
-        $params = $request->all();
-        $params['role_id'] = User::USER;
-
-        $user = $userService->create($params);
+        $user = $this->userService->create($request->all());
 
         return response()->json([
             'user' => new UserResource($user),
@@ -56,57 +56,47 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param UserService $userService
+     * @param UserRequest $userRequest
      * @param int $id
      * @return UserResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(UserService $userService, $id)
+    public function show(UserRequest $userRequest, $id)
     {
-        $user = $userService->find($id);
-        if ($user) {
-            return new UserResource($userService->find($id));
-        }
-        return response()->json(['error' => __('User not found')], 404);
+        return new UserResource($this->userService->find($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateUserRequest $request
-     * @param UserService $userService
+     * @param UpdateUserRequest $updateUserRequest
      * @param int $id
      * @return UserResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function update(UpdateUserRequest $request, UserService $userService, $id)
+    public function update(UpdateUserRequest $updateUserRequest, $id)
     {
-        $user = $userService->update($id, $request->all());
-        if ($user) {
-            $this->authorize('update-user', $user);
-            return new UserResource($user);
-        }
-        return response()->json(['error' => __('User not found')], 404);
+        $user = $this->userService->find($id);
+        $this->authorize('update-user', $user);
+
+        $this->userService->update($id, $updateUserRequest->all());
+
+        return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param UserRequest $userRequest
      * @param UserService $userService
      * @param int $id
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function destroy(UserService $userService, $id)
+    public function destroy(UserRequest $userRequest, UserService $userService, $id)
     {
-        $user = $userService->find($id);
-        if($user) {
-            $this->authorize('delete-user', $user);
+        $this->authorize('delete-user', $userService->find($id));
 
-            $userService->delete($id);
-            return response()->json(['success']);
-        }
-
-        return response()->json(['error' => __('User not found')], 404);
+        $userService->delete($id);
+        return response()->json(['success']);
     }
 }

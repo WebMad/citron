@@ -19,6 +19,8 @@ class CreateProjectsUsersTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('project_role_id')->default(ProjectRole::MEMBER);
+            $table->boolean('confirmed')->default(false);
+
             $table->timestamps();
 
             $table->foreign('project_id')

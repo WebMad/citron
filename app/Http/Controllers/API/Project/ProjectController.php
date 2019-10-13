@@ -1,0 +1,174 @@
+<?php
+
+namespace App\Http\Controllers\API\Project;
+
+use App\Http\Requests\Project\CreateProjectRequest;
+use App\Http\Requests\Project\ProjectRequest;
+use App\Http\Resources\Project\ProjectFullInfoResource;
+use App\Http\Resources\Project\ProjectResource;
+use App\Http\Resources\Project\ProjectResourceResource;
+use App\Http\Resources\Project\ProjectStageResource;
+use App\Http\Resources\Project\ProjectsUserResource;
+use App\Http\Services\ProjectService;
+use App\Project;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
+
+class ProjectController extends Controller
+{
+
+    /**
+     * @var ProjectService
+     */
+    private $projectService;
+
+    public function __construct(ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function index()
+    {
+        return ProjectFullInfoResource::collection($this->projectService->all());
+    }
+
+    /**
+     * Возвращает полную информацию о проекте (пользователи, ресурсы, этапы)
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
+    public function getFullInfo(ProjectRequest $projectRequest, $id)
+    {
+        return ProjectFullInfoResource::collection($this->projectService->find($id));
+    }
+
+    /**
+     * Возвращает этапы проекта
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
+    public function getStages(ProjectRequest $projectRequest, $id)
+    {
+        return ProjectStageResource::collection($this->projectService->getStages($id));
+    }
+
+    /**
+     * Возвращает ресурсы проекта
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
+    public function getResources(ProjectRequest $projectRequest, $id)
+    {
+        return ProjectResourceResource::collection($this->projectService->getResources($id));
+    }
+
+    /**
+     * Возвращает всех участников проекта
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
+    public function getUsers(ProjectRequest $projectRequest, $id)
+    {
+        return ProjectsUserResource::collection($this->projectService->getUsers($id));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateProjectRequest $request
+     * @return ProjectResource
+     */
+    public function store(CreateProjectRequest $request)
+    {
+        /** @var Project $project */
+        $project = $this->projectService->create($request->all());
+
+        return new ProjectResource($project);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param ProjectRequest $projectRequest
+     * @param int $id
+     * @return ProjectResource
+     */
+    public function show(ProjectRequest $projectRequest, $id)
+    {
+        return new ProjectResource($this->projectService->find($id));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param ProjectRequest $request
+     * @param int $id
+     * @return ProjectResource
+     */
+    public function update(ProjectRequest $request, $id)
+    {
+        /** @var Project $project */
+        return new ProjectResource($this->projectService->update($id, $request->all()));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $this->projectService->delete($id);
+
+        return response()->json(['success']);
+    }
+
+    /**
+     * Отправить приглашение пользователю
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     */
+    public function inviteUser(ProjectRequest $projectRequest, $id)
+    {
+        //TODO: сделать возможным приглашение в проект
+    }
+
+    /**
+     * Принять приглашение в проект
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     */
+    public function acceptInvite(ProjectRequest $projectRequest, $id)
+    {
+
+    }
+
+    /**
+     * Отклонить приглашение в проект
+     *
+     * @param ProjectRequest $projectRequest
+     * @param $id
+     */
+    public function denyInvite(ProjectRequest $projectRequest, $id)
+    {
+
+    }
+
+}

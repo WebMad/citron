@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
+use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,10 @@ class AuthController extends Controller
      */
     public function register(CreateUserRequest $request, UserService $userService)
     {
-        $user = $userService->create($request->all());
+        $params = $request->all();
+        $params['role_id'] = User::USER;
+
+        $user = $userService->create($params);
 
         $token = JWTAuth::fromUser($user);
 

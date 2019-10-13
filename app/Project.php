@@ -22,7 +22,7 @@ class Project extends Model
 
     public function projectResources()
     {
-        return $this->hasMany('App\ProjectResources', 'project_id', 'id');
+        return $this->hasMany('App\ProjectResource', 'project_id', 'id');
     }
 
     public function projectStages()

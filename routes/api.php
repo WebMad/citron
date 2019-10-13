@@ -30,6 +30,16 @@ Route::group([
 
 
 Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function () {
+
+    Route::group(['prefix' => 'projects', 'namespace' => "Project"], function ()
+    {
+        Route::apiResource('/', 'ProjectController');
+        Route::get('{id}/getFullInfo', 'ProjectController@getFullInfo');
+        Route::get('{id}/stages', 'ProjectController@getStages');
+        Route::get('{id}/resources', 'ProjectController@getResources');
+        Route::get('{id}/users', 'ProjectController@getUsers');
+    });
+
     Route::get('roles', 'RoleController@index');
     Route::get('roles/{id}', 'RoleController@show');
 

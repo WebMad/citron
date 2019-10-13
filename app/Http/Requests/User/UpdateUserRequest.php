@@ -2,21 +2,10 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\BaseRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateUserRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -26,6 +15,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'required|exists:users,id',
             'surname' => ['string', 'max:255'],
             'name' => ['string', 'max:255'],
             'middle_name' => ['string', 'max:255'],
@@ -33,15 +23,5 @@ class UpdateUserRequest extends FormRequest
             'password' => ['string', 'min:8', 'confirmed'],
             'role_id' => ['exists:roles,id'],
         ];
-    }
-
-    /**
-     * @param Validator $validator
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        $response = response()->json(['errors' => $validator->errors()], 400);
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag);
     }
 }
