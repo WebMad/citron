@@ -4,12 +4,14 @@ namespace App\Http\Controllers\API\Project;
 
 use App\Http\Requests\Project\CreateProjectRequest;
 use App\Http\Requests\Project\ProjectRequest;
+use App\Http\Requests\Project\ProjectResourceRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\Project\ProjectFullInfoResource;
 use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\Project\ProjectResourceResource;
 use App\Http\Resources\Project\ProjectStageResource;
 use App\Http\Resources\Project\ProjectsUserResource;
-use App\Http\Services\ProjectService;
+use App\Http\Services\Project\ProjectService;
 use App\Project;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -35,7 +37,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return ProjectFullInfoResource::collection($this->projectService->all());
+        return ProjectResource::collection($this->projectService->all());
     }
 
     /**
@@ -43,11 +45,11 @@ class ProjectController extends Controller
      *
      * @param ProjectRequest $projectRequest
      * @param $id
-     * @return AnonymousResourceCollection
+     * @return ProjectFullInfoResource
      */
     public function getFullInfo(ProjectRequest $projectRequest, $id)
     {
-        return ProjectFullInfoResource::collection($this->projectService->find($id));
+        return new ProjectFullInfoResource($this->projectService->find($id));
     }
 
     /**
@@ -115,23 +117,24 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param ProjectRequest $request
+     * @param UpdateProjectRequest $updateProjectRequest
      * @param int $id
      * @return ProjectResource
      */
-    public function update(ProjectRequest $request, $id)
+    public function update(UpdateProjectRequest $updateProjectRequest, $id)
     {
         /** @var Project $project */
-        return new ProjectResource($this->projectService->update($id, $request->all()));
+        return new ProjectResource($this->projectService->update($id, $updateProjectRequest->all()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param ProjectRequest $projectRequest
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ProjectRequest $projectRequest, $id)
     {
         $this->projectService->delete($id);
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Project;
+namespace App\Http\Requests\Project\Stage;
 
 use App\Http\Requests\BaseRequest;
 
-class ProjectRequest extends BaseRequest
+class StageRequest extends BaseRequest
 {
 
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['id'] = $this->route('project');
+        $data['id'] = $this->route('project_stage');
         return $data;
     }
 
@@ -22,7 +22,7 @@ class ProjectRequest extends BaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:projects,id'
+            'id' => 'required|exists:project_stages,id'
         ];
     }
 }

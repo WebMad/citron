@@ -31,13 +31,15 @@ Route::group([
 
 Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function () {
 
-    Route::group(['prefix' => 'projects', 'namespace' => "Project"], function ()
-    {
-        Route::apiResource('/', 'ProjectController');
-        Route::get('{id}/getFullInfo', 'ProjectController@getFullInfo');
-        Route::get('{id}/stages', 'ProjectController@getStages');
-        Route::get('{id}/resources', 'ProjectController@getResources');
-        Route::get('{id}/users', 'ProjectController@getUsers');
+    Route::apiResource('project_resources', 'Project\ResourceController');
+    Route::apiResource('project_stages', 'Project\StageController');
+    Route::apiResource('projects', 'Project\ProjectController');
+
+    Route::group(['prefix' => 'projects', 'namespace' => "Project"], function () {
+        Route::get('{project}/fullInfo', 'ProjectController@getFullInfo');
+        Route::get('{project}/stages', 'ProjectController@getStages');
+        Route::get('{project}/resources', 'ProjectController@getResources');
+        Route::get('{project}/users', 'ProjectController@getUsers');
     });
 
     Route::get('roles', 'RoleController@index');

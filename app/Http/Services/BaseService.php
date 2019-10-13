@@ -54,23 +54,16 @@ abstract class BaseService
     public function update($id, $params)
     {
         /** @var Model $model */
-        $model = $this->model::find($id);
+        $model = $this->find($id);
         $model->update($params);
         return $model;
-
     }
 
     public function delete($id)
     {
         /** @var Model $model */
-        $model = $this->model::find($id);
-        try {
-            $model->delete();
-            return true;
-
-        } catch (\Exception $e) {
-            return false;
-        }
+        $model = $this->find($id);
+        $model->delete();
     }
 
 

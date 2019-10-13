@@ -17,7 +17,7 @@ class CreateProjectsUsersTable extends Migration
         Schema::create('projects_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('project_role_id')->default(ProjectRole::MEMBER);
             $table->boolean('confirmed')->default(false);
 
@@ -25,11 +25,13 @@ class CreateProjectsUsersTable extends Migration
 
             $table->foreign('project_id')
                 ->references('id')
-                ->on('projects');
+                ->on('projects')
+                ->onDelete('CASCADE');
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('SET NULL');
 
             $table->foreign('project_role_id')
                 ->references('id')

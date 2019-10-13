@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Project;
+namespace App\Http\Requests\Project\Resource;
 
 use App\Http\Requests\BaseRequest;
 
-class ProjectRequest extends BaseRequest
+class ResourceRequest extends BaseRequest
 {
-
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['id'] = $this->route('project');
+        $data['id'] = $this->route('project_resource');
         return $data;
     }
 
@@ -22,7 +21,7 @@ class ProjectRequest extends BaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:projects,id'
+            'id' => 'exists:project_resources,id'
         ];
     }
 }

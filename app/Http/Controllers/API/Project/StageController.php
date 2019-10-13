@@ -2,84 +2,84 @@
 
 namespace App\Http\Controllers\API\Project;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Project\Stage\CreateStageRequest;
+use App\Http\Requests\Project\Stage\StageRequest;
+use App\Http\Requests\Project\Stage\UpdateStageRequest;
+use App\Http\Resources\Project\ProjectStageResource;
+use App\Http\Services\Project\ProjectStageService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class StageController extends Controller
 {
+
+    private $projectStageService;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * StageController constructor.
+     * @param ProjectStageService $projectStageService
      */
-    public function index()
+    public function __construct(ProjectStageService $projectStageService)
     {
-        //
+        $this->projectStageService = $projectStageService;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
-    public function create()
+    public function index()
     {
-        //
+        return ProjectStageResource::collection($this->projectStageService->all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateStageRequest $createStageRequest
+     * @return ProjectStageResource
      */
-    public function store(Request $request)
+    public function store(CreateStageRequest $createStageRequest)
     {
-        //
+        return new ProjectStageResource($this->projectStageService->create($createStageRequest->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param StageRequest $stageRequest
+     * @param int $id
+     * @return ProjectStageResource
      */
-    public function show($id)
+    public function show(StageRequest $stageRequest, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return new ProjectStageResource($this->projectStageService->find($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateStageRequest $updateStageRequest
+     * @param int $id
+     * @return ProjectStageResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStageRequest $updateStageRequest, $id)
     {
-        //
+        return new ProjectStageResource($this->projectStageService->update($id, $updateStageRequest->all()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param StageRequest $stageRequest
+     * @param int $id
+     * @return Response
      */
-    public function destroy($id)
+    public function destroy(StageRequest $stageRequest, $id)
     {
-        //
+        $this->projectStageService->delete($id);
+        return response()->json(['success']);
     }
 }

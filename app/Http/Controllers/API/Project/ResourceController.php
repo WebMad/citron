@@ -2,84 +2,83 @@
 
 namespace App\Http\Controllers\API\Project;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Project\Resource\CreateResourceRequest;
+use App\Http\Requests\Project\Resource\ResourceRequest;
+use App\Http\Requests\Project\Resource\UpdateResourceRequest;
+use App\Http\Resources\Project\ProjectResourceResource;
+use App\Http\Services\Project\ProjectResourceService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class ResourceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var ProjectResourceService
      */
-    public function index()
+    private $projectResourceService;
+
+    public function __construct(ProjectResourceService $projectResourceService)
     {
-        //
+        $this->projectResourceService = $projectResourceService;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
-    public function create()
+    public function index()
     {
-        //
+        return ProjectResourceResource::collection($this->projectResourceService->all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateResourceRequest $request
+     * @return ProjectResourceResource
      */
-    public function store(Request $request)
+    public function store(CreateResourceRequest $request)
     {
-        //
+        $projectResource = $this->projectResourceService->create($request->all());
+        return new ProjectResourceResource($projectResource);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ResourceRequest $projectResourceRequest
+     * @param int $id
+     * @return ProjectResourceResource
      */
-    public function show($id)
+    public function show(ResourceRequest $projectResourceRequest, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return new ProjectResourceResource($this->projectResourceService->find($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateResourceRequest $updateResourceRequest
+     * @param int $id
+     * @return ProjectResourceResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateResourceRequest $updateResourceRequest, $id)
     {
-        //
+        return new ProjectResourceResource($this->projectResourceService->update($id, $updateResourceRequest->all()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ResourceRequest $resourceRequest
+     * @param ResourceRequest $id
+     * @return Response
      */
-    public function destroy($id)
+    public function destroy(ResourceRequest $resourceRequest, $id)
     {
-        //
+        $this->projectResourceService->delete($id);
+        return response()->json(['success']);
     }
 }
