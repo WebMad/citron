@@ -45,5 +45,8 @@ Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function ()
     Route::get('roles', 'RoleController@index');
     Route::get('roles/{id}', 'RoleController@show');
 
+    Route::get('project_roles', 'Project\RoleController@index');
+    Route::get('project_roles/{id}', 'Project\RoleController@show');
+
     Route::apiResource('users', 'UserController');
 });
