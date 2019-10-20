@@ -8,12 +8,18 @@ use App\Http\Requests\Project\Invites\UpdateInviteRequest;
 use App\Http\Resources\ProjectInviteResource;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Project\ProjectInviteService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class InviteController extends Controller
 {
     private $projectInviteService;
 
+    /**
+     * InviteController constructor.
+     * @param ProjectInviteService $projectInviteService
+     */
     public function __construct(ProjectInviteService $projectInviteService)
     {
         $this->projectInviteService = $projectInviteService;
@@ -68,7 +74,7 @@ class InviteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -76,15 +82,15 @@ class InviteController extends Controller
         return response()->json(['success']);
     }
 
+    /**
+     * @param InviteRequest $inviteRequest
+     * @param $id
+     * @return JsonResponse
+     */
     public function accept(InviteRequest $inviteRequest, $id)
     {
         $this->projectInviteService->accept($id);
         return response()->json(['success']);
     }
 
-    public function deny(InviteRequest $inviteRequest, $id)
-    {
-        $this->projectInviteService->deny($id);
-        return response()->json(['success']);
-    }
 }

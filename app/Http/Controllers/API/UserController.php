@@ -13,6 +13,10 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers\API
+ */
 class UserController extends Controller
 {
 
@@ -21,6 +25,10 @@ class UserController extends Controller
      */
     private $userService;
 
+    /**
+     * UserController constructor.
+     * @param UserService $userService
+     */
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
@@ -36,6 +44,11 @@ class UserController extends Controller
         return UserResource::collection($this->userService->all());
     }
 
+    /**
+     * @param UserRequest $userRequest
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
     public function getProjects(UserRequest $userRequest, $id)
     {
         return ProjectResource::collection($this->userService->getProjects($id));

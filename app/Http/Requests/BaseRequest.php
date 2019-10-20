@@ -6,6 +6,10 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class BaseRequest
+ * @package App\Http\Requests
+ */
 abstract class BaseRequest extends FormRequest
 {
 

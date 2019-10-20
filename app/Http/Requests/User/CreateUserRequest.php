@@ -7,6 +7,10 @@ use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class CreateUserRequest
+ * @package App\Http\Requests\User
+ */
 class CreateUserRequest extends BaseRequest
 {
     /**

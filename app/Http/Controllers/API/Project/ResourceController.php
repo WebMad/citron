@@ -11,6 +11,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
+/**
+ * Class ResourceController
+ * @package App\Http\Controllers\API\Project
+ */
 class ResourceController extends Controller
 {
     /**
@@ -18,6 +22,10 @@ class ResourceController extends Controller
      */
     private $projectResourceService;
 
+    /**
+     * ResourceController constructor.
+     * @param ProjectResourceService $projectResourceService
+     */
     public function __construct(ProjectResourceService $projectResourceService)
     {
         $this->projectResourceService = $projectResourceService;

@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers\API
+ */
 class AuthController extends Controller
 {
     /**

@@ -3,8 +3,11 @@
 namespace App\Http\Requests\Project\Invites;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateInviteRequest
+ * @package App\Http\Requests\Project\Invites
+ */
 class CreateInviteRequest extends BaseRequest
 {
     /**

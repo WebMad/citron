@@ -7,7 +7,7 @@ class RoleRequest extends BaseRequest
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['id'] = $this->route('id');
+        $data['id'] = $this->route('role');
         return $data;
     }
 

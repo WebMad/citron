@@ -2,13 +2,17 @@
 
 namespace App;
 
-use App\Http\Services\Project\ProjectService;
-use App\Http\Services\UserService;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
@@ -44,16 +48,25 @@ class User extends Authenticatable implements JWTSubject
     public const MODERATOR = 2;
     public const USER = 3;
 
+    /**
+     * @return HasOne
+     */
     public function role()
     {
         return $this->hasOne('App\Role', 'id', 'role_id');
     }
 
+    /**
+     * @return HasMany
+     */
     public function invites()
     {
         return $this->hasMany('App\ProjectInvite', 'user_id', 'id');
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function projects()
     {
         return $this->belongsToMany('App\Project', 'projects_users','user_id', 'project_id');

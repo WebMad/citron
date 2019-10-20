@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources\Project;
 
+/**
+ * Class ProjectFullInfoResource
+ * @package App\Http\Resources\Project
+ */
 class ProjectFullInfoResource extends ProjectResource
 {
     /**

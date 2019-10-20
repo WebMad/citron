@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Project\Invites;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class UpdateInviteRequest extends InviteRequest
 {
     /**

@@ -4,8 +4,16 @@ namespace App\Http\Requests\Project\Invites;
 
 use App\Http\Requests\BaseRequest;
 
+/**
+ * Class InviteRequest
+ * @package App\Http\Requests\Project\Invites
+ */
 class InviteRequest extends BaseRequest
 {
+    /**
+     * @param null $keys
+     * @return array
+     */
     public function all($keys = null)
     {
         $data = parent::all($keys);

@@ -22,6 +22,11 @@ class ProjectService extends BaseService
      */
     private $projectsUser;
 
+    /**
+     * ProjectService constructor.
+     * @param Project $project
+     * @param ProjectsUser $projectsUser
+     */
     public function __construct(Project $project, ProjectsUser $projectsUser)
     {
         parent::__construct($project);
@@ -92,6 +97,10 @@ class ProjectService extends BaseService
         return $this->find($id)->projectStages()->orderBy('position')->get();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getInvites($id)
     {
         return $this->find($id)->projectInvites()->get();

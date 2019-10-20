@@ -4,9 +4,17 @@ namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseRequest;
 
+/**
+ * Class UserRequest
+ * @package App\Http\Requests\User
+ */
 class UserRequest extends BaseRequest
 {
 
+    /**
+     * @param null $keys
+     * @return array
+     */
     public function all($keys = null)
     {
         $data = parent::all($keys);

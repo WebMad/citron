@@ -4,8 +4,16 @@ namespace App\Http\Requests\Project;
 
 use App\Http\Requests\BaseRequest;
 
+/**
+ * Class ProjectRoleRequest
+ * @package App\Http\Requests\Project
+ */
 class ProjectRoleRequest extends BaseRequest
 {
+    /**
+     * @param null $keys
+     * @return array
+     */
     public function all($keys = null)
     {
         $data = parent::all($keys);

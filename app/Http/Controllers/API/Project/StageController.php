@@ -11,9 +11,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
+/**
+ * Class StageController
+ * @package App\Http\Controllers\API\Project
+ */
 class StageController extends Controller
 {
 
+    /**
+     * @var ProjectStageService
+     */
     private $projectStageService;
 
     /**

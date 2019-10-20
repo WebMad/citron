@@ -13,11 +13,18 @@ use App\ProjectInvite;
 class ProjectInviteService extends BaseService
 {
 
+    /**
+     * ProjectInviteService constructor.
+     * @param ProjectInvite $projectInvite
+     */
     public function __construct(ProjectInvite $projectInvite)
     {
         parent::__construct($projectInvite);
     }
 
+    /**
+     * @param $id
+     */
     public function accept($id)
     {
         $invite = $this->find($id);
@@ -25,6 +32,9 @@ class ProjectInviteService extends BaseService
         $invite->save();
     }
 
+    /**
+     * @param $id
+     */
     public function deny($id)
     {
         $invite = $this->find($id);

@@ -17,6 +17,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
+/**
+ * Class ProjectController
+ * @package App\Http\Controllers\API\Project
+ */
 class ProjectController extends Controller
 {
 
@@ -25,6 +29,10 @@ class ProjectController extends Controller
      */
     private $projectService;
 
+    /**
+     * ProjectController constructor.
+     * @param ProjectService $projectService
+     */
     public function __construct(ProjectService $projectService)
     {
         $this->projectService = $projectService;
@@ -86,11 +94,6 @@ class ProjectController extends Controller
     public function getUsers(ProjectRequest $projectRequest, $id)
     {
         return ProjectsUserResource::collection($this->projectService->getUsers($id));
-    }
-
-    public function getInvites(ProjectRequest $projectRequest, $id)
-    {
-        return ProjectInviteResource::collection($this->projectService->getInvites($id));
     }
 
     /**

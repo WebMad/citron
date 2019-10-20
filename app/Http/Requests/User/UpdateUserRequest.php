@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests\User;
 
+/**
+ * Class UpdateUserRequest
+ * @package App\Http\Requests\User
+ */
 class UpdateUserRequest extends UserRequest
 {
 

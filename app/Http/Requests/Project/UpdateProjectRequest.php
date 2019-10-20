@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests\Project;
 
+/**
+ * Class UpdateProjectRequest
+ * @package App\Http\Requests\Project
+ */
 class UpdateProjectRequest extends ProjectRequest
 {
 

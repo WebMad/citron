@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Project\Resource;
 
-use Illuminate\Foundation\Http\FormRequest;
-
+/**
+ * Class UpdateResourceRequest
+ * @package App\Http\Requests\Project\Resource
+ */
 class UpdateResourceRequest extends ResourceRequest
 {
     /**

@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Hash;
 class UserService extends BaseService
 {
 
+    /**
+     * UserService constructor.
+     * @param User $user
+     */
     public function __construct(User $user)
     {
         parent::__construct($user);
@@ -35,6 +39,10 @@ class UserService extends BaseService
         ]);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getProjects($id)
     {
         return $this->find($id)->projects()->get();

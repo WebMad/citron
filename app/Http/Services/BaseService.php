@@ -17,6 +17,10 @@ abstract class BaseService
      */
     protected $model;
 
+    /**
+     * BaseService constructor.
+     * @param Model $model
+     */
     public function __construct(Model $model)
     {
         $this->model = $model;
@@ -51,6 +55,11 @@ abstract class BaseService
         return $this->model::find($id);
     }
 
+    /**
+     * @param $id
+     * @param $params
+     * @return Model
+     */
     public function update($id, $params)
     {
         /** @var Model $model */
@@ -59,6 +68,10 @@ abstract class BaseService
         return $model;
     }
 
+    /**
+     * @param $id
+     * @throws \Exception
+     */
     public function delete($id)
     {
         /** @var Model $model */

@@ -4,6 +4,10 @@ namespace App\Http\Requests\Project\Resource;
 
 use App\Http\Requests\BaseRequest;
 
+/**
+ * Class CreateResourceRequest
+ * @package App\Http\Requests\Project\Resource
+ */
 class CreateResourceRequest extends BaseRequest
 {
     /**

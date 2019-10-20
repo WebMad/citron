@@ -4,6 +4,10 @@ namespace App\Http\Requests\Project;
 
 use App\Http\Requests\BaseRequest;
 
+/**
+ * Class CreateProjectRequest
+ * @package App\Http\Requests\Project
+ */
 class CreateProjectRequest extends BaseRequest
 {
     /**
