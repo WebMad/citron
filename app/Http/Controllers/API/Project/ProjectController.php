@@ -10,7 +10,6 @@ use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\Project\ProjectResourceResource;
 use App\Http\Resources\Project\ProjectStageResource;
 use App\Http\Resources\Project\ProjectsUserResource;
-use App\Http\Resources\ProjectInviteResource;
 use App\Http\Services\Project\ProjectService;
 use App\Project;
 use App\Http\Controllers\Controller;
@@ -141,6 +140,7 @@ class ProjectController extends Controller
      * @param ProjectRequest $projectRequest
      * @param int $id
      * @return Response
+     * @throws \Exception
      */
     public function destroy(ProjectRequest $projectRequest, $id)
     {

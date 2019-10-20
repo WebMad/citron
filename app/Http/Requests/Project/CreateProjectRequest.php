@@ -25,7 +25,7 @@ class CreateProjectRequest extends BaseRequest
             'end_date' => 'date_format',
             'expected_date' => 'date_format',
             'project_role_id' => 'exists:project_roles,id',
-            'user_id' => 'exists:users,id'
+            'user_id' => 'required|exists:users,id'
         ];
     }
 }
