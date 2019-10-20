@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Resources\RoleResource;
-use App\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +30,18 @@ Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function ()
     Route::apiResource('project_resources', 'Project\ResourceController');
     Route::apiResource('project_stages', 'Project\StageController');
     Route::apiResource('projects', 'Project\ProjectController');
+    Route::apiResource('project_invites', 'Project\InviteController');
 
     Route::group(['prefix' => 'projects', 'namespace' => "Project"], function () {
         Route::get('{project}/fullInfo', 'ProjectController@getFullInfo');
         Route::get('{project}/stages', 'ProjectController@getStages');
         Route::get('{project}/resources', 'ProjectController@getResources');
         Route::get('{project}/users', 'ProjectController@getUsers');
+    });
+
+    Route::group(['prefix' => 'project_invites', 'namespace' => 'Project'], function () {
+        Route::post('{project_invite}/accept', 'InviteController@accept');
+        Route::post('{project_invite}/deny', 'InviteController@deny');
     });
 
     Route::get('roles', 'RoleController@index');
@@ -49,4 +51,9 @@ Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function ()
     Route::get('project_roles/{id}', 'Project\RoleController@show');
 
     Route::apiResource('users', 'UserController');
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('{user}/projects', 'UserController@getProjects');
+    });
+
 });

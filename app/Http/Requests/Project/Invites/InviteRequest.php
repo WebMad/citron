@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Project\Invites;
 
 use App\Http\Requests\BaseRequest;
 
-class UserRequest extends BaseRequest
+class InviteRequest extends BaseRequest
 {
-
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['id'] = $this->route('user');
+        $data['id'] = $this->route('project_invite');
         return $data;
     }
 
@@ -22,7 +21,7 @@ class UserRequest extends BaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users,id'
+            'id' => 'required|exists:project_invites,id'
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Http\Services\Project\ProjectService;
+use App\Http\Services\UserService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -47,10 +49,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne('App\Role', 'id', 'role_id');
     }
 
-//    public function projects()
-//    {
-//        return $this->belongsToMany('App\Projects', 'projects_users');
-//    }
+    public function invites()
+    {
+        return $this->hasMany('App\ProjectInvite', 'user_id', 'id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany('App\Project', 'projects_users','user_id', 'project_id');
+    }
 
     /**
      * Проверяет, имеет ли пользователь права администратора

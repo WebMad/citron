@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
+use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -33,6 +34,11 @@ class UserController extends Controller
     public function index()
     {
         return UserResource::collection($this->userService->all());
+    }
+
+    public function getProjects(UserRequest $userRequest, $id)
+    {
+        return ProjectResource::collection($this->userService->getProjects($id));
     }
 
     /**

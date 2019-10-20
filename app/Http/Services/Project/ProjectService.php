@@ -8,6 +8,7 @@ use App\ProjectResource;
 use App\ProjectRole;
 use App\ProjectStage;
 use App\ProjectsUser;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -64,7 +65,7 @@ class ProjectService extends BaseService
      * @param $id
      * @return User[]
      */
-    public function getUsers($id)
+    public function getUsers($id) //TODO: переименовать этот метод в getProjectUsers и добавить метод getUsers, возвращающий чисто пользователей
     {
         return $this->find($id)->projectUsers()->get();
     }
@@ -89,6 +90,11 @@ class ProjectService extends BaseService
     public function getStages($id)
     {
         return $this->find($id)->projectStages()->orderBy('position')->get();
+    }
+
+    public function getInvites($id)
+    {
+        return $this->find($id)->projectInvites()->get();
     }
 
 }

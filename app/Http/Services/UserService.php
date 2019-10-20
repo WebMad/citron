@@ -35,4 +35,9 @@ class UserService extends BaseService
         ]);
     }
 
+    public function getProjects($id)
+    {
+        return $this->find($id)->projects()->get();
+    }
+
 }

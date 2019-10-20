@@ -4,13 +4,13 @@ namespace App\Http\Controllers\API\Project;
 
 use App\Http\Requests\Project\CreateProjectRequest;
 use App\Http\Requests\Project\ProjectRequest;
-use App\Http\Requests\Project\ProjectResourceRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\Project\ProjectFullInfoResource;
 use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\Project\ProjectResourceResource;
 use App\Http\Resources\Project\ProjectStageResource;
 use App\Http\Resources\Project\ProjectsUserResource;
+use App\Http\Resources\ProjectInviteResource;
 use App\Http\Services\Project\ProjectService;
 use App\Project;
 use App\Http\Controllers\Controller;
@@ -88,6 +88,11 @@ class ProjectController extends Controller
         return ProjectsUserResource::collection($this->projectService->getUsers($id));
     }
 
+    public function getInvites(ProjectRequest $projectRequest, $id)
+    {
+        return ProjectInviteResource::collection($this->projectService->getInvites($id));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -140,38 +145,4 @@ class ProjectController extends Controller
 
         return response()->json(['success']);
     }
-
-    /**
-     * Отправить приглашение пользователю
-     *
-     * @param ProjectRequest $projectRequest
-     * @param $id
-     */
-    public function inviteUser(ProjectRequest $projectRequest, $id)
-    {
-        //TODO: сделать возможным приглашение в проект
-    }
-
-    /**
-     * Принять приглашение в проект
-     *
-     * @param ProjectRequest $projectRequest
-     * @param $id
-     */
-    public function acceptInvite(ProjectRequest $projectRequest, $id)
-    {
-
-    }
-
-    /**
-     * Отклонить приглашение в проект
-     *
-     * @param ProjectRequest $projectRequest
-     * @param $id
-     */
-    public function denyInvite(ProjectRequest $projectRequest, $id)
-    {
-
-    }
-
 }
