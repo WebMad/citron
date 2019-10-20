@@ -15,6 +15,8 @@ class InviteStatus extends Model
     const ACCEPTED = 2;
     const DENIED = 3;
 
+    protected $fillable = ['project_id', 'user_id', 'status_id'];
+
     /**
      * @var string
      */

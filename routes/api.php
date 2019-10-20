@@ -44,6 +44,11 @@ Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function ()
         Route::post('{project_invite}/deny', 'InviteController@deny');
     });
 
+    Route::group(['prefix' => 'invite_statuses', 'namespace' => 'Project'], function () {
+        Route::get('/', 'InviteStatusController@index');
+        Route::get('/{invite_status}', 'InviteStatusController@show');
+    });
+
     Route::get('roles', 'RoleController@index');
     Route::get('roles/{role}', 'RoleController@show');
 

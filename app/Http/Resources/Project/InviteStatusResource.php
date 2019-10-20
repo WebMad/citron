@@ -4,11 +4,7 @@ namespace App\Http\Resources\Project;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Class ProjectResourceResource
- * @package App\Http\Resources\Project
- */
-class ProjectResourceResource extends JsonResource
+class InviteStatusResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,9 +16,7 @@ class ProjectResourceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'project_id' => $this->project_id,
-            'position' => $this->position
+            'project_id' => $this->name,
         ];
     }
 }

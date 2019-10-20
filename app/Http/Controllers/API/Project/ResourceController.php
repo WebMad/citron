@@ -83,6 +83,7 @@ class ResourceController extends Controller
      * @param ResourceRequest $resourceRequest
      * @param ResourceRequest $id
      * @return Response
+     * @throws \Exception
      */
     public function destroy(ResourceRequest $resourceRequest, $id)
     {
