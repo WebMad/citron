@@ -63,7 +63,7 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $this->authorize('create-user');
+        $this->authorize('store', $this->userService->getModel());
 
         $user = $this->userService->create($request->all());
 
@@ -95,7 +95,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $updateUserRequest, $id)
     {
         $user = $this->userService->find($id);
-        $this->authorize('update-user', $user);
+        $this->authorize('update', $user);
 
         $this->userService->update($id, $updateUserRequest->all());
 
@@ -109,11 +109,11 @@ class UserController extends Controller
      * @param UserService $userService
      * @param int $id
      * @return void
-     * @throws AuthorizationException
+     * @throws \Exception
      */
     public function destroy(UserRequest $userRequest, UserService $userService, $id)
     {
-        $this->authorize('delete-user', $userService->find($id));
+        $this->authorize('delete', $userService->find($id));
 
         $userService->delete($id);
         return response()->json(['success']);

@@ -79,5 +79,12 @@ abstract class BaseService
         $model->delete();
     }
 
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
 
 }

@@ -20,7 +20,7 @@ class UserPolicy
      * @param \App\User $user
      * @return mixed
      */
-    public function create(User $user)
+    public function store(User $user)
     {
         return $user->isAdmin();
     }

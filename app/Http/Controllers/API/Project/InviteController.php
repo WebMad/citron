@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\Project\ProjectInviteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 
 class InviteController extends Controller
 {
@@ -75,6 +74,7 @@ class InviteController extends Controller
      *
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
