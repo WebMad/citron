@@ -5,10 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Role
+ * Class ProjectRole
  * @package App
  */
-class Role extends Model
+class ProjectRole extends Model
 {
     /**
      * @var bool
@@ -19,4 +19,10 @@ class Role extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    public const TUTOR = 1;
+    public const MENTOR = 2;
+    public const LEADER = 3;
+    public const MEMBER = 4;
+
 }

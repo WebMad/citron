@@ -5,6 +5,10 @@ namespace App\Policies;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class UserPolicy
+ * @package App\Policies
+ */
 class UserPolicy
 {
 
@@ -16,7 +20,7 @@ class UserPolicy
      * @param \App\User $user
      * @return mixed
      */
-    public function create(User $user)
+    public function store(User $user)
     {
         return $user->isAdmin();
     }

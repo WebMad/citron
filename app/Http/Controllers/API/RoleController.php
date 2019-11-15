@@ -2,24 +2,43 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
+use App\Http\Services\Project\RoleService;
 use App\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Class RoleController
+ * @package App\Http\Controllers\API
+ */
 class RoleController extends Controller
 {
+
+    private $roleService;
+
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
+
+    /**
+     * @return AnonymousResourceCollection
+     */
     public function index()
     {
         return RoleResource::collection(Role::all());
     }
 
-    public function show($id)
+    /**
+     * @param RoleRequest $roleRequest
+     * @param $id
+     * @return RoleResource|JsonResponse
+     */
+    public function show(RoleRequest $roleRequest, $id)
     {
-        $role = Role::find($id);
-        if ($role) {
-            return new RoleResource($role);
-        }
-
-        return response()->json(['error' => 'Role not found'], 404);
+        return new RoleResource($this->roleService->find($id));
     }
 }

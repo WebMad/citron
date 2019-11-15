@@ -3,22 +3,16 @@
 namespace App\Http\Requests\User;
 
 use App\Exceptions\RegisterUserException;
+use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class CreateUserRequest extends FormRequest
+/**
+ * Class CreateUserRequest
+ * @package App\Http\Requests\User
+ */
+class CreateUserRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -35,15 +29,4 @@ class CreateUserRequest extends FormRequest
             'role_id' => ['nullable', 'exists:roles,id'],
         ];
     }
-
-    /**
-     * @param Validator $validator
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        $response = response()->json(['errors' => $validator->errors()], 400);
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag);
-    }
-
 }

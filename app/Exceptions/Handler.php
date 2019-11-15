@@ -52,7 +52,8 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof AuthorizationException)
         {
-            return response()->json(['error' => 'Permission denied.'],403);
+
+            return response()->json(['errors' => $exception->getMessage()],403);
         }
 
         return parent::render($request, $exception);

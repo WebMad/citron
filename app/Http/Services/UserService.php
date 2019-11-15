@@ -4,24 +4,23 @@ namespace App\Http\Services;
 
 
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class UserService
+ * @property User $model
+ * @package App\Http\Services
+ */
 class UserService extends BaseService
 {
 
+    /**
+     * UserService constructor.
+     * @param User $user
+     */
     public function __construct(User $user)
     {
-        $this->model = $user;
-    }
-
-    /**
-     * @return Collection|Model[]
-     */
-    public function all()
-    {
-        return $this->model::all();
+        parent::__construct($user);
     }
 
     /**
@@ -41,27 +40,12 @@ class UserService extends BaseService
     }
 
     /**
-     * @param int $id
+     * @param $id
      * @return mixed
      */
-    public function find($id)
+    public function getProjects($id)
     {
-        return $this->model::find($id);
-    }
-
-    public function update($id, $params)
-    {
-        $user = $this->model::find($id);
-        if($user) {
-            $user->update($params);
-            return $user;
-        }
-         return false;
-    }
-
-    public function delete($id)
-    {
-        $this->model::find($id)->delete();
+        return $this->find($id)->projects()->get();
     }
 
 }

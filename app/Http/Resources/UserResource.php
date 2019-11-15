@@ -13,6 +13,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string updated_at
  * @property string created_at
  * @property Role role
+ * @property string middle_name
+ * @property string surname
  */
 class UserResource extends JsonResource
 {
@@ -26,7 +28,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'surname' => $this->surname,
             'name' => $this->name,
+            'middle_name' => $this->middle_name,
             'email' => $this->email,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
