@@ -6,10 +6,10 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AuthController
@@ -17,15 +17,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  */
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('jwt.verify', ['except' => ['login', 'register']]);
-    }
 
     /**
      * Register user
@@ -42,10 +33,8 @@ class AuthController extends Controller
 
         $user = $userService->create($params);
 
-        $token = JWTAuth::fromUser($user);
-
         return response()->json([
-            'access_token' => $token,
+            'success',
         ], 201);
     }
 
@@ -57,11 +46,22 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-        if (! $token = auth()->attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $user = Auth::user();
+        $token = $user->createToken('Personal access token');
+
+        $token->token->expires_at = request('remember_me') ? Carbon::now()->addMonth() : Carbon::now()->addDay();
+
+        $token->token->save();
+
+        return response()->json([
+            'access_token' => $token->accessToken,
+            'token_type' => 'bearer',
+            'expires_at' => Carbon::parse($token->token->expires_at)->toDateTimeString()
+        ]);
     }
 
     /**
@@ -81,7 +81,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        request()->user()->token()->revoke();
 
         return response()->json(['message' => 'Successfully logged out']);
     }

@@ -19,13 +19,16 @@ Route::group([
 ], function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('logout', 'AuthController@logout');
+        Route::post('refresh', 'AuthController@refresh');
+        Route::post('me', 'AuthController@me');
+    });
+
 });
 
 
-Route::group(['middleware' => ['jwt.verify'], 'namespace' => 'API'], function () {
+Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
 
     Route::apiResource('project_resources', 'Project\ResourceController');
     Route::apiResource('project_stages', 'Project\StageController');
