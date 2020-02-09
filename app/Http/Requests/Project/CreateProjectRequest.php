@@ -19,8 +19,8 @@ class CreateProjectRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'purpose' => 'string',
-            'expected_result' => 'string',
+            'purpose' => '',
+            'expected_result' => '',
             'start_date' => 'date_format:Y-m-d',
             'end_date' => 'date_format:Y-m-d',
             'expected_date' => 'date_format:Y-m-d',
