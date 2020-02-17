@@ -37,7 +37,7 @@ $ php artisan migrate --seed
 
 ```
 $ php artisan key:generate
-$ php artisan jwt:secret
+$ php artisan passport:install
 ```
 
 Поздравляю! Теперь тебе просто необходимо открыть проект в браузере
