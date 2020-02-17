@@ -26,17 +26,18 @@ DB_USERNAME=<ПОЛЬЗОВАТЕЛЬ>
 DB_PASSWORD=<ПАРОЛЬ>
 ```
 
-Затем сгенерируйте ключ приложения и ключ для JWT авторизации
-
-```
-$ php artisan key:generate
-$ php artisan jwt:secret
-```
-
 Теперь необходимо провести миграцию и заполнить базу данных:
 
 ```
 $ php artisan migrate --seed
+```
+
+
+Затем сгенерируйте ключ приложения и ключ для laravel/passport авторизации
+
+```
+$ php artisan key:generate
+$ php artisan jwt:secret
 ```
 
 Поздравляю! Теперь тебе просто необходимо открыть проект в браузере
