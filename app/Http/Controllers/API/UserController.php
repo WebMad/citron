@@ -138,7 +138,7 @@ class UserController extends Controller
     public function getInvites(UserRequest $userRequest, ProjectInviteService $projectInviteService, $id)
     {
         $invites = $projectInviteService->all([], [
-            'user_id' => $id,
+            ['user_id', '=', $id]
         ]);
         return ProjectInviteResource::collection($invites);
     }
