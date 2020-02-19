@@ -10,6 +10,7 @@ use App\Http\Resources\ProjectInviteResource;
 use App\Http\Resources\UserResource;
 use App\Http\Services\Project\ProjectInviteService;
 use App\Http\Services\UserService;
+use App\InviteStatus;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -138,7 +139,8 @@ class UserController extends Controller
     public function getInvites(UserRequest $userRequest, ProjectInviteService $projectInviteService, $id)
     {
         $invites = $projectInviteService->all([], [
-            ['user_id', '=', $id]
+            ['user_id', '=', $id],
+            ['status_id', '=', InviteStatus::SENDED],
         ]);
         return ProjectInviteResource::collection($invites);
     }

@@ -119,5 +119,16 @@ class InviteController extends Controller
         $this->projectInviteService->accept($id);
         return response()->json(['success']);
     }
+    /**
+     * @param InviteRequest $inviteRequest
+     * @param $id
+     * @return JsonResponse
+     */
+    public function deny(InviteRequest $inviteRequest, $id)
+    {
+        $this->projectInviteService->deny($id);
+        return response()->json(['success']);
+    }
+
 
 }
