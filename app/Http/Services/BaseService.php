@@ -28,11 +28,17 @@ abstract class BaseService
 
     /**
      * Возвращает все записи в таблице
-     * @return Collection|Model[]
+     * @param array $relations
+     * @param array $where
+     * @return \Illuminate\Database\Eloquent\Builder[]|Collection
      */
-    public function all()
+    public function all($relations = [], $where = [])
     {
-        return $this->model::all();
+        $result = $this->model::with($relations);
+        foreach ((array)$where as $condition) {
+            $result->where($condition[0], $condition[1], $condition[2]);
+        }
+        return $result->get()->all();
     }
 
     /**

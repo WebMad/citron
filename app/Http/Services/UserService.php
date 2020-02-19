@@ -48,4 +48,13 @@ class UserService extends BaseService
         return $this->find($id)->projects()->get();
     }
 
+    /**
+     * @param $email
+     * @return User
+     */
+    public function getUserByEmail($email)
+    {
+        return $this->model::where('email', $email)->first();
+    }
+
 }

@@ -11,6 +11,7 @@ use App\Http\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
@@ -37,11 +38,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection($this->userService->all());
+        $where = [];
+        if ($request->get('email')) {
+            $where[] = ['email', '=',  $request->get('email')];
+        }
+        return UserResource::collection($this->userService->all([], $where));
     }
 
     /**

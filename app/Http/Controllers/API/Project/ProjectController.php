@@ -10,9 +10,12 @@ use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\Project\ProjectResourceResource;
 use App\Http\Resources\Project\ProjectStageResource;
 use App\Http\Resources\Project\ProjectsUserResource;
+use App\Http\Services\Project\ProjectInviteService;
 use App\Http\Services\Project\ProjectService;
+use App\Http\Services\Project\ProjectUserService;
 use App\Project;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -27,17 +30,29 @@ class ProjectController extends Controller
      * @var ProjectService
      */
     private $projectService;
+    /**
+     * @var ProjectUserService
+     */
+    private $projectUserService;
+    /**
+     * @var ProjectInviteService
+     */
+    private $projectInviteService;
 
     /**
      * ProjectController constructor.
      * @param ProjectService $projectService
+     * @param ProjectUserService $projectUserService
+     * @param ProjectInviteService $projectInviteService
      */
-    public function __construct(ProjectService $projectService)
+    public function __construct(ProjectService $projectService, ProjectUserService $projectUserService, ProjectInviteService $projectInviteService)
     {
         $this->projectService = $projectService;
+        $this->projectUserService = $projectUserService;
+        $this->projectInviteService = $projectInviteService;
     }
 
-    /**
+    /**use
      * Display a listing of the resource.
      *
      * @return AnonymousResourceCollection
@@ -93,6 +108,22 @@ class ProjectController extends Controller
     public function getUsers(ProjectRequest $projectRequest, $id)
     {
         return ProjectsUserResource::collection($this->projectService->getUsers($id));
+    }
+
+    /**
+     * Удаляет пользователя из проекта
+     *
+     * @param int $project_user_id id пользователя в проекте
+     * @throws \Exception
+     */
+    public function kickUser($project_user_id)
+    {
+        $project_user = $this->projectUserService->find($project_user_id);
+        $this->projectInviteService->all([], [
+            ['user_id', '=', $project_user->user_id],
+            ['project_id', '=', $project_user->project_id],
+        ])[0]->delete();
+        $project_user->delete();
     }
 
     /**

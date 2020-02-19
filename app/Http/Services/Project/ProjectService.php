@@ -72,7 +72,7 @@ class ProjectService extends BaseService
      */
     public function getUsers($id) //TODO: переименовать этот метод в getProjectUsers и добавить метод getUsers, возвращающий чисто пользователей
     {
-        return $this->find($id)->projectUsers()->get();
+        return $this->find($id)->projectUsers;
     }
 
     /**
