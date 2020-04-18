@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             ProjectRolesSeeder::class,
             InviteStatusesTableSeeder::class,
+            TaskStatusesTableSeeder::class,
         ]);
     }
 }
