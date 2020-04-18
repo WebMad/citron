@@ -6,11 +6,15 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\Project\ProjectResource;
+use App\Http\Resources\ProjectInviteResource;
 use App\Http\Resources\UserResource;
+use App\Http\Services\Project\ProjectInviteService;
 use App\Http\Services\UserService;
+use App\InviteStatus;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
@@ -37,11 +41,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection($this->userService->all());
+        $where = [];
+        if ($request->get('email')) {
+            $where[] = ['email', '=', $request->get('email')];
+        }
+        return UserResource::collection($this->userService->all([], $where));
     }
 
     /**
@@ -108,7 +117,7 @@ class UserController extends Controller
      * @param UserRequest $userRequest
      * @param UserService $userService
      * @param int $id
-     * @return void
+     * @return JsonResponse
      * @throws \Exception
      */
     public function destroy(UserRequest $userRequest, UserService $userService, $id)
@@ -117,5 +126,22 @@ class UserController extends Controller
 
         $userService->delete($id);
         return response()->json(['success']);
+    }
+
+    /**
+     * Возвращает приглашения пользователя
+     *
+     * @param UserRequest $userRequest
+     * @param ProjectInviteService $projectInviteService
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
+    public function getInvites(UserRequest $userRequest, ProjectInviteService $projectInviteService, $id)
+    {
+        $invites = $projectInviteService->all([], [
+            ['user_id', '=', $id],
+            ['status_id', '=', InviteStatus::SENDED],
+        ]);
+        return ProjectInviteResource::collection($invites);
     }
 }

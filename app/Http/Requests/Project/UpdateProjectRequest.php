@@ -17,14 +17,14 @@ class UpdateProjectRequest extends ProjectRequest
     public function rules()
     {
         return array_merge(parent::rules(),[
-            'name' => 'string|max:255',
-            'purpose' => 'string',
-            'expected_result' => 'string',
+            'name' => 'required|string|max:255',
+            'purpose' => '',
+            'expected_result' => '',
             'start_date' => 'date_format:Y-m-d',
             'end_date' => 'date_format:Y-m-d',
             'expected_date' => 'date_format:Y-m-d',
-            'project_role_id' => 'exists:project_roles,id',
-            'user_id' => 'exists:users,id'
+            'project_role_id' => 'nullable|exists:project_roles,id',
+            'user_id' => 'nullable|exists:users,id'
         ]);
     }
 }

@@ -73,6 +73,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return BelongsToMany
+     */
+    public function confirmedProjects()
+    {
+        return $this->belongsToMany('App\Project', 'projects_users','user_id', 'project_id')->where('confirmed', '=', true);
+    }
+
+    /**
      * Проверяет, имеет ли пользователь права администратора
      * @return bool
      */

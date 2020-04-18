@@ -8,20 +8,31 @@ use App\Http\Requests\Project\Invites\UpdateInviteRequest;
 use App\Http\Resources\ProjectInviteResource;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Project\ProjectInviteService;
+use App\Http\Services\Project\ProjectUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class InviteController extends Controller
 {
+    /**
+     * @var ProjectInviteService
+     */
     private $projectInviteService;
+
+    /**
+     * @var ProjectUserService
+     */
+    private $projectUserService;
 
     /**
      * InviteController constructor.
      * @param ProjectInviteService $projectInviteService
+     * @param ProjectUserService $projectUserService
      */
-    public function __construct(ProjectInviteService $projectInviteService)
+    public function __construct(ProjectInviteService $projectInviteService, ProjectUserService $projectUserService)
     {
         $this->projectInviteService = $projectInviteService;
+        $this->projectUserService = $projectUserService;
     }
 
     /**
@@ -42,7 +53,23 @@ class InviteController extends Controller
      */
     public function store(CreateInviteRequest $createProjectRequest)
     {
-        return new ProjectInviteResource($this->projectInviteService->create($createProjectRequest->all()));
+        if (!$this->projectInviteService->all([], [
+            ['project_id', '=', $createProjectRequest->get('project_id')],
+            ['user_id', '=', $createProjectRequest->get('user_id')]
+        ])) {
+            $this->projectUserService->create([
+                'project_id' => $createProjectRequest->get('project_id'),
+                'user_id' => $createProjectRequest->get('user_id'),
+                'project_role_id' => $createProjectRequest->get('project_role_id'),
+                'confirmed' => false,
+            ]);
+
+            return new ProjectInviteResource($this->projectInviteService->create($createProjectRequest->all()));
+        }
+        return response()->json([
+            'error' => 'Приглашение уже отправлено'
+        ]);
+
     }
 
     /**
@@ -92,5 +119,16 @@ class InviteController extends Controller
         $this->projectInviteService->accept($id);
         return response()->json(['success']);
     }
+    /**
+     * @param InviteRequest $inviteRequest
+     * @param $id
+     * @return JsonResponse
+     */
+    public function deny(InviteRequest $inviteRequest, $id)
+    {
+        $this->projectInviteService->deny($id);
+        return response()->json(['success']);
+    }
+
 
 }
