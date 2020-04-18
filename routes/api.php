@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
     Route::apiResource('projects', 'Project\ProjectController');
     Route::apiResource('project_invites', 'Project\InviteController');
     Route::apiResource('project_users', 'Project\ProjectUserController');
+    Route::apiResource('project_task_stages', 'Project\TaskStageController');
 
     Route::group(['prefix' => 'projects', 'namespace' => "Project"], function () {
         Route::get('{project}/myProjects', 'ProjectController@myProjects');
