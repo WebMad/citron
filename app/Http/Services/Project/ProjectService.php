@@ -39,6 +39,7 @@ class ProjectService extends BaseService
      */
     public function create($params)
     {
+        $params['creator_id'] = Auth::id();
         $project = $this->model::create($params);
 
         if (!isset($params['user_id'])) {

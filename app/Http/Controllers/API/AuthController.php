@@ -32,10 +32,18 @@ class AuthController extends Controller
         $params['role_id'] = User::USER;
 
         $user = $userService->create($params);
+        
+        $token = $user->createToken('Personal access token');
+
+        $token->token->expires_at = request('remember_me') ? Carbon::now()->addMonth() : Carbon::now()->addDay();
+
+        $token->token->save();
 
         return response()->json([
-            'success',
-        ], 201);
+            'access_token' => $token->accessToken,
+            'token_type' => 'bearer',
+            'expires_at' => Carbon::parse($token->token->expires_at)->toDateTimeString()
+        ]);
     }
 
     /**

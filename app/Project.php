@@ -22,6 +22,7 @@ class Project extends Model
         'start_date',
         'end_date',
         'expected_date',
+        'creator_id',
     ];
 
     /**
