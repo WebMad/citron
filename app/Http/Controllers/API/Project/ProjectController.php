@@ -141,6 +141,11 @@ class ProjectController extends Controller
         ])->where('project_id', '=', $id)->orderBy('task_stages.position')->get();
     }
 
+    public function getTaskStages(ProjectRequest $projectRequest, $id)
+    {
+        return TaskStage::where('project_id', '=', $id)->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

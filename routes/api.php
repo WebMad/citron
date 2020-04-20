@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
         Route::get('{project}/users', 'ProjectController@getUsers');
         Route::get('{project}/tasks', 'ProjectController@getTasks');
         Route::get('{project}/kanban', 'ProjectController@getKanban');
+        Route::get('{project}/task_stages', 'ProjectController@getTaskStages');
         Route::delete('kick_user/{project_user_id}', 'ProjectController@kickUser');
     });
 
