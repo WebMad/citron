@@ -22,4 +22,9 @@ class Task extends Model
     {
         return $this->hasOne('App\User', 'id', 'implementer_id');
     }
+
+    public function stage()
+    {
+        return $this->hasOne('App\TaskStage', 'id', 'stage_id');
+    }
 }

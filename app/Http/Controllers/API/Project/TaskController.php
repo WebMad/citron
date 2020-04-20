@@ -8,6 +8,7 @@ use App\Http\Requests\Project\Task\TaskRequest;
 use App\Http\Requests\Project\Task\UpdateTaskRequest;
 use App\Http\Resources\Project\TaskResource;
 use App\Http\Services\Project\TaskService;
+use App\Task;
 
 class TaskController extends Controller
 {
@@ -44,11 +45,11 @@ class TaskController extends Controller
      *
      * @param TaskRequest $request
      * @param int $id
-     * @return TaskResource
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
      */
     public function show(TaskRequest $request, $id)
     {
-        return new TaskResource($this->taskService->find($id));
+        return Task::with(['status', 'creator', 'implementer', 'stage'])->where('id', '=', $id)->first();
     }
 
     /**
