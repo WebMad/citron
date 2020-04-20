@@ -17,7 +17,7 @@ class CreateTaskRequest extends BaseRequest
         return [
             'name' => 'required|max:255',
             'description' => '',
-            'implementer_id' => 'exists:users,id',
+            'implementer_id' => 'nullable|exists:users,id',
             'creator_id' => 'exists:users,id',
             'prospective_date' => 'date_format:Y-m-d',
             'status_id' => 'exists:task_statuses,id',
