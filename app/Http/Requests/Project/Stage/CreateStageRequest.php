@@ -16,7 +16,7 @@ class CreateStageRequest extends BaseRequest
         return [
             'description' => 'required|max:255',
             'project_id' => 'required|exists:projects,id',
-            'position' => 'integer'
+            'position' => 'nullable|integer'
         ];
     }
 }
