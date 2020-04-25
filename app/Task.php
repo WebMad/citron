@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $fillable = ['name', 'description', 'implementer_id', 'creator_id', 'prospective_date', 'status_id', 'project_id', 'stage_id'];
+    protected $fillable = ['name', 'description', 'implementer_id', 'creator_id', 'prospective_date', 'status_id', 'project_id', 'feed_id', 'stage_id'];
 
     public function status()
     {
@@ -26,5 +26,10 @@ class Task extends Model
     public function stage()
     {
         return $this->hasOne('App\TaskStage', 'id', 'stage_id');
+    }
+
+    public function feed()
+    {
+        return $this->hasOne('App\Feed', 'id', 'feed_id');
     }
 }

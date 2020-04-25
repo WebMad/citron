@@ -32,7 +32,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateTaskRequest $request
      * @return TaskResource
      */
     public function store(CreateTaskRequest $request)

@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaskStatus extends Model
+class FeedType extends Model
 {
-    const OPENED = 1;
-    const CLOSED = 2;
-    const ARCHIVED = 3;
+
+    const TASK = 1;
 
     protected $fillable = ['name'];
     public $timestamps = false;

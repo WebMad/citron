@@ -30,6 +30,8 @@ Route::group([
 
 Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
 
+    Route::apiResource('feeds', 'FeedController');
+    Route::apiResource('comments', 'CommentController');
     Route::apiResource('project_resources', 'Project\ResourceController');
     Route::apiResource('project_stages', 'Project\StageController');
     Route::apiResource('projects', 'Project\ProjectController');

@@ -21,7 +21,7 @@ class ProjectRolesSeeder extends Seeder
     public function run(ProjectRole $projectRole)
     {
         foreach ($this->project_roles as $role) {
-            $projectRole::firstOrCreate($role);
+            $projectRole::updateOrCreate(['id' => $role['id']], $role);
         }
     }
 }
