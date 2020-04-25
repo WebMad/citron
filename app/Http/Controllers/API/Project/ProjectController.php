@@ -10,11 +10,13 @@ use App\Http\Resources\Project\ProjectResource;
 use App\Http\Resources\Project\ProjectResourceResource;
 use App\Http\Resources\Project\ProjectStageResource;
 use App\Http\Resources\Project\ProjectsUserResource;
+use App\Http\Resources\Project\TaskResource;
 use App\Http\Services\Project\ProjectInviteService;
 use App\Http\Services\Project\ProjectService;
 use App\Http\Services\Project\ProjectUserService;
 use App\Project;
 use App\Http\Controllers\Controller;
+use App\TaskStage;
 use App\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -126,6 +128,24 @@ class ProjectController extends Controller
         $project_user->delete();
     }
 
+    public function getTasks(ProjectRequest $projectRequest, $id)
+    {
+        return TaskResource::collection($this->projectService->find($id)->tasks);
+    }
+
+    public function getKanban(ProjectRequest $projectRequest, $id)
+    {
+        return TaskStage::with([
+            'tasks', 'tasks.status',
+            'tasks.creator', 'tasks.implementer'
+        ])->where('project_id', '=', $id)->orderBy('task_stages.position')->get();
+    }
+
+    public function getTaskStages(ProjectRequest $projectRequest, $id)
+    {
+        return TaskStage::where('project_id', '=', $id)->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -170,7 +190,7 @@ class ProjectController extends Controller
      *
      * @param ProjectRequest $projectRequest
      * @param int $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function destroy(ProjectRequest $projectRequest, $id)

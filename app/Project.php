@@ -65,4 +65,9 @@ class Project extends Model
         return $this->hasMany('App\ProjectInvite', 'project_id', 'id');
     }
 
+    public function tasks()
+    {
+        return $this->hasMany('App\Task', 'project_id', 'id');
+    }
+
 }

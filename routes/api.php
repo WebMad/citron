@@ -30,11 +30,16 @@ Route::group([
 
 Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
 
+    Route::apiResource('feeds', 'FeedController');
+    Route::apiResource('comments', 'CommentController');
     Route::apiResource('project_resources', 'Project\ResourceController');
     Route::apiResource('project_stages', 'Project\StageController');
     Route::apiResource('projects', 'Project\ProjectController');
     Route::apiResource('project_invites', 'Project\InviteController');
     Route::apiResource('project_users', 'Project\ProjectUserController');
+    Route::apiResource('project_task_stages', 'Project\TaskStageController');
+    Route::apiResource('project_tasks', 'Project\TaskController');
+    Route::get('project_task_statuses', 'Project\TaskStatusController@index');
 
     Route::group(['prefix' => 'projects', 'namespace' => "Project"], function () {
         Route::get('{project}/myProjects', 'ProjectController@myProjects');
@@ -42,6 +47,9 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
         Route::get('{project}/stages', 'ProjectController@getStages');
         Route::get('{project}/resources', 'ProjectController@getResources');
         Route::get('{project}/users', 'ProjectController@getUsers');
+        Route::get('{project}/tasks', 'ProjectController@getTasks');
+        Route::get('{project}/kanban', 'ProjectController@getKanban');
+        Route::get('{project}/task_stages', 'ProjectController@getTaskStages');
         Route::delete('kick_user/{project_user_id}', 'ProjectController@kickUser');
     });
 

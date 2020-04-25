@@ -21,7 +21,7 @@ class RolesTableSeeder extends Seeder
     public function run(Role $roleModel)
     {
         foreach ($this->roles as $role) {
-            $roleModel::firstOrCreate($role);
+            $roleModel::updateOrCreate(['id' => $role['id']], $role);
         }
     }
 
