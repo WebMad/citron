@@ -17,7 +17,7 @@ class FeedResource extends JsonResource
         return [
             'id' => $this->id,
             'type_id' => $this->type_id,
-            'comments' => $this->comments_tree()->with('user')->get()
+            'comments' => CommentResource::collection($this->comments_tree()->with('user')->get())
         ];
     }
 }
