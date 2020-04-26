@@ -17,6 +17,6 @@ class Feed extends Model
     {
         return $this->hasMany('App\Comment', 'feed_id', 'id')
             ->whereNull(['reply_id'])
-            ->with('comments_tree');
+            ->with(['comments_tree', 'user']);
     }
 }

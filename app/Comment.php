@@ -20,6 +20,6 @@ class Comment extends Model
 
     public function comments_tree()
     {
-        return $this->reply_comment()->with('comments_tree');
+        return $this->reply_comment()->with(['comments_tree', 'user']);
     }
 }
