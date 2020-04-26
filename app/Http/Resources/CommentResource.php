@@ -14,7 +14,7 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $comment = [
             'id' => $this->id,
             'text' => $this->text,
             'user_id' => $this->user_id,
@@ -25,5 +25,9 @@ class CommentResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+        if ($this->user_id) {
+            $comment['user'] = $this->user;
+        }
+        return $comment;
     }
 }

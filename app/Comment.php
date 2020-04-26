@@ -8,6 +8,11 @@ class Comment extends Model
 {
     protected $fillable = ['text', 'user_id', 'feed_id', 'reply_id', 'is_discussion', 'is_resolved'];
 
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
     public function reply_comment()
     {
         return $this->hasMany('App\Comment', 'reply_id', 'id');
