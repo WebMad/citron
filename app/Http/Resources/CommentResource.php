@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class CommentResource extends JsonResource
 {
@@ -22,8 +23,10 @@ class CommentResource extends JsonResource
             'reply_id' => $this->reply_id,
             'is_discussion' => $this->is_discussion,
             'is_resolved' => $this->is_resolved,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => (new \DateTime($this->created_at))->format('H:i:s d.m.Y'),
+            'updated_at' => (new \DateTime($this->updated_at))->format('H:i:s d.m.Y'),
+            'can_delete' => Auth::id() == $this->user_id,
+            'can_edit' => Auth::id() == $this->user_id,
         ];
         if ($this->user_id) {
             $comment['user'] = $this->user;
