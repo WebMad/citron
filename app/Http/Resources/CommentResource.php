@@ -28,6 +28,9 @@ class CommentResource extends JsonResource
         if ($this->user_id) {
             $comment['user'] = $this->user;
         }
+        if ($this->reply_id) {
+            $comment['comments_tree'] = $this->comments_tree;
+        }
         return $comment;
     }
 }

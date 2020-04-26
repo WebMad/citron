@@ -25,7 +25,7 @@ class CommentRequest extends BaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|comments:feeds,id'
+            'id' => 'required|exists:comments,id'
         ];
     }
 }
