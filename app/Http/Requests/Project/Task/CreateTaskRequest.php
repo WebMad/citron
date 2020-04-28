@@ -22,7 +22,7 @@ class CreateTaskRequest extends BaseRequest
             'prospective_date' => 'date_format:Y-m-d',
             'status_id' => 'exists:task_statuses,id',
             'project_id' => 'exists:projects,id',
-            'stage_id' => 'exists:task_stages,id'
+            'stage_id' => 'nullable|exists:task_stages,id'
         ];
     }
 }
