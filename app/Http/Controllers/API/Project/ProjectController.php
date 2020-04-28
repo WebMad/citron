@@ -16,6 +16,7 @@ use App\Http\Services\Project\ProjectService;
 use App\Http\Services\Project\ProjectUserService;
 use App\Project;
 use App\Http\Controllers\Controller;
+use App\Task;
 use App\TaskStage;
 use App\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -130,7 +131,9 @@ class ProjectController extends Controller
 
     public function getTasks(ProjectRequest $projectRequest, $id)
     {
-        return TaskResource::collection($this->projectService->find($id)->tasks);
+        return Task::with(['status', 'creator', 'implementer', 'stage'])
+            ->where('project_id', '=', $id)
+            ->get();
     }
 
     public function getKanban(ProjectRequest $projectRequest, $id)
