@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Services\Project\ProjectInviteService;
 use App\Http\Services\UserService;
 use App\InviteStatus;
+use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -36,6 +37,7 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
@@ -72,8 +74,6 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $this->authorize('store', $this->userService->getModel());
-
         $user = $this->userService->create($request->all());
 
         return response()->json([
@@ -122,8 +122,6 @@ class UserController extends Controller
      */
     public function destroy(UserRequest $userRequest, UserService $userService, $id)
     {
-        $this->authorize('delete', $userService->find($id));
-
         $userService->delete($id);
         return response()->json(['success']);
     }

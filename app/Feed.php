@@ -19,4 +19,9 @@ class Feed extends Model
             ->whereNull(['reply_id'])
             ->with(['comments_tree', 'user']);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task', 'feed_id', 'id');
+    }
 }

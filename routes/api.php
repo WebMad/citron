@@ -71,8 +71,8 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'API'], function () {
 
     Route::apiResource('users', 'UserController');
     Route::group(['prefix' => 'users'], function () {
-        Route::get('{user}/projects', 'UserController@getProjects');
-        Route::get('{user}/invites', 'UserController@getInvites');
+        Route::get('{user}/projects', 'UserController@getProjects')->middleware('can:projects,user');
+        Route::get('{user}/invites', 'UserController@getInvites')->middleware('can:invites,user');
     });
 
 });
